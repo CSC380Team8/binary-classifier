@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Sep 23 19:26:17 2016
-
 @author: critter
-
 From https://www.noao.edu/meetings/eventful-universe/Thursday0318/morning/CRTS_TucsonMar10.pdf :
 Discovery rate ~ 1 transient per 10^6 sources detected per epoch So, transient discovery seems very rare. 
 To spice things up, I've made transients appear much more often than what is described above (1 in 50)
@@ -41,7 +39,7 @@ class EmulatorMain(object):
             point = namedtuple('Observation' + str(x), ['time', 'light'])
             if (y != 0):
                 timeTaken = timeTaken + timeInterval
-                p = point(timeTaken, (initialBrightness + self._createError(initialBrightness)))
+                p = point(timeTaken, (initialBrightness + self._createError()))
                 finalObject.append(p)
                 x += 1
                 continue
@@ -55,7 +53,7 @@ class EmulatorMain(object):
             else:
                 initialBrightness = initialBrightness - variance
             timeTaken = timeTaken = timeInterval;
-            p = point(timeTaken, (initialBrightness + self._createError(initialBrightness)))            
+            p = point(timeTaken, (initialBrightness + self._createError()))            
             finalObject.append(p)
             x += 1
             
@@ -74,10 +72,10 @@ class EmulatorMain(object):
         observationalError = observationalError * .01
         return observationalError
 
-""" CODE TO PRINT OUT OBSERVATIONS OF A SINGLE OBJECT
+"""CODE TO PRINT OUT OBSERVATIONS OF A SINGLE OBJECT
 a = EmulatorMain()
 h = []
 h = a.generateSingleObject()
 for x in h:
-    print h[x]
+    print h
 """
