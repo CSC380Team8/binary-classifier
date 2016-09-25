@@ -6,14 +6,11 @@ Created on Fri Sep 23 19:26:17 2016
 
 From https://www.noao.edu/meetings/eventful-universe/Thursday0318/morning/CRTS_TucsonMar10.pdf :
 Discovery rate ~ 1 transient per 10^6 sources detected per epoch So, transient discovery seems very rare. 
- o spice thing up, I've made transients appear much more often than what is described above (1 in 50)
+To spice things up, I've made transients appear much more often than what is described above (1 in 50)
 The frequency can be easily changed
  
-Each object contains a semi-random number of observations. Observations come in tuples of (time (seconds), light ()). 
+Each object contains a semi-random number of observations (2-10). Observations come in tuples of (time (seconds), light (no idea)). 
 Objects are arrays of these tuples where the first index is the first observation taken.
-
-TODO: Get a random chance for whether the slope is increasing or decreasing, and a random chance
-that the slope change direction(once)
 """
 
 from collections import namedtuple
@@ -67,15 +64,13 @@ class EmulatorMain():
             
         return FinalObject
 
-    def generateManyObjects(obsCount):
+    def generateManyObjects(obsCount): 
         """
         Method to be called by the event broker when it wants to parse through many objects. obsCount determines 
         how many objects are created. Pass None in if you want a random amount of objects between 2 and 10
         Returns ? Do we even need this?
         """
-        if obsCount is None:
-            obsCount = random.randint(2, 10)
-        
+      
     def _createError(self, x):
         # Error between -5%-5% of value passsed in (random)
         observationalError = random.randint(-5, 5)
