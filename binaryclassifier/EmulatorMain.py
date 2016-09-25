@@ -16,7 +16,7 @@ Objects are arrays of these tuples where the first index is the first observatio
 from collections import namedtuple
 import random
 
-class EmulatorMain():
+class EmulatorMain(object):
     
     def generateSingleObject(self):
         """
@@ -36,33 +36,30 @@ class EmulatorMain():
         timeTaken = 0 # pretend in seconds
         timeInterval = random.randint(3600, 28800)
         #observations may take place between 1 and 8 hours but remain constant for the object
-        FinalObject = []
+        finalObject = []
         while x < totalObservations:
-            Point = namedtuple('Observation' + str(x), ['time', 'light'])
+            point = namedtuple('Observation' + str(x), ['time', 'light'])
             if (y != 0):
                 timeTaken = timeTaken + timeInterval
-                p = Point(timeTaken, (initialBrightness + self._createError(initialBrightness)))
-                FinalObject.append(p)
+                p = point(timeTaken, (initialBrightness + self._createError(initialBrightness)))
+                finalObject.append(p)
                 x += 1
                 continue
-            if (hasSlopeChanged == False):
+            if hasSlopeChanged == False:
                 j = random.randint(1, 20) # 1 in 20 chance of slope changing
                 if (j == 1):
                     hasSlopeChanged = True
-                    if isSlopePositive == False:
-                        isSlopePositive = True
-                    if isSlopePositive == True:
-                        isSlopePositive = False
-            if (isSlopePositive == True):
+                    isSlopePositve = not isSlopePositive
+            if isSlopePositive == True:
                 initialBrightness = initialBrightness + variance
-            if (isSlopePositive == False):
+            else:
                 initialBrightness = initialBrightness - variance
             timeTaken = timeTaken = timeInterval;
-            p = Point(timeTaken, (initialBrightness + self._createError(initialBrightness)))            
-            FinalObject.append(p)
+            p = point(timeTaken, (initialBrightness + self._createError(initialBrightness)))            
+            finalObject.append(p)
             x += 1
             
-        return FinalObject
+        return finalObject
 
     def generateManyObjects(obsCount): 
         """
@@ -71,7 +68,7 @@ class EmulatorMain():
         Returns ? Do we even need this?
         """
       
-    def _createError(self, x):
+    def _createError(self):
         # Error between -5%-5% of value passsed in (random)
         observationalError = random.randint(-5, 5)
         observationalError = observationalError * .01
@@ -81,9 +78,6 @@ class EmulatorMain():
 a = EmulatorMain()
 h = []
 h = a.generateSingleObject()
-x = len(h)
-y = 0
-while y < x:
-    print h[y]
-    y+=1
+for x in h:
+    print h[x]
 """
