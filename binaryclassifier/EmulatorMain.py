@@ -35,19 +35,18 @@ class EmulatorMain(object):
         timeInterval = random.randint(3600, 28800)
         #observations may take place between 1 and 8 hours but remain constant for the object
         finalObject = []
-        while x < totalObservations:
+        for x in range(0, totalObservations + 1):
             point = namedtuple('Observation' + str(x), ['time', 'light'])
             if (y != 0):
                 timeTaken = timeTaken + timeInterval
                 p = point(timeTaken, (initialBrightness + self._createError()))
                 finalObject.append(p)
-                x += 1
                 continue
             if hasSlopeChanged == False:
                 j = random.randint(1, 20) # 1 in 20 chance of slope changing
                 if (j == 1):
                     hasSlopeChanged = True
-                    isSlopePositve = not isSlopePositive
+                    isSlopePositive = not isSlopePositive
             if isSlopePositive == True:
                 initialBrightness = initialBrightness + variance
             else:
@@ -55,7 +54,6 @@ class EmulatorMain(object):
             timeTaken = timeTaken = timeInterval;
             p = point(timeTaken, (initialBrightness + self._createError()))            
             finalObject.append(p)
-            x += 1
             
         return finalObject
 
@@ -74,8 +72,8 @@ class EmulatorMain(object):
 
 """CODE TO PRINT OUT OBSERVATIONS OF A SINGLE OBJECT
 a = EmulatorMain()
-h = []
 h = a.generateSingleObject()
-for x in h:
-    print h
+for a in h:
+    print a
 """
+        
