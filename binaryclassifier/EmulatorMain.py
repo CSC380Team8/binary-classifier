@@ -4,9 +4,7 @@ Created on Fri Sep 23 19:26:17 2016
 @author: critter
 From https://www.noao.edu/meetings/eventful-universe/Thursday0318/morning/CRTS_TucsonMar10.pdf :
 Discovery rate ~ 1 transient per 10^6 sources detected per epoch So, transient discovery seems very rare. 
-To spice things up, I've made transients appear much more often than what is described above (1 in 50)
-The frequency can be easily changed
- 
+
 Each object contains a semi-random number of observations (2-10). Observations come in tuples of (time (seconds), light (no idea)). 
 Objects are arrays of these tuples where the first index is the first observation taken.
 """
@@ -16,7 +14,7 @@ import random
 
 class EmulatorMain(object):
     
-    def generateSingleObject(self):
+    def generateSingleObject(self, isTransient): #pass True to generate a transient
         """
         Method to be called by the event broker or emulator when it wants
         a single object's observational data. Returns an array of namedtuple.
@@ -24,12 +22,11 @@ class EmulatorMain(object):
         single namedtuple every x seconds instead of a whole array at once
         """
         totalObservations = random.randint(2, 10) #2 to 10 observations per object
-        y = random.randint(0, 50) ##If y = 0, it will generate as a transient
         x = 0
         initialBrightness = random.randint(1, 100) #arbitrary value for the brightness observed
         isSlopePositive = random.choice([True, False])
         hasSlopeChanged = False
-        if y == 0:
+        if isTransient == True:
             variance = random.randint(1, (initialBrightness/4) + 1)
         timeTaken = 0 # pretend in seconds
         timeInterval = random.randint(3600, 28800)
@@ -37,14 +34,14 @@ class EmulatorMain(object):
         finalObject = []
         for x in range(0, totalObservations + 1):
             point = namedtuple('Observation' + str(x), ['time', 'light'])
-            if (y != 0):
+            if isTransient == False:
                 timeTaken = timeTaken + timeInterval
                 p = point(timeTaken, (initialBrightness + self._createError()))
                 finalObject.append(p)
                 continue
             if hasSlopeChanged == False:
                 j = random.randint(1, 20) # 1 in 20 chance of slope changing
-                if (j == 1):
+                if j == 1:
                     hasSlopeChanged = True
                     isSlopePositive = not isSlopePositive
             if isSlopePositive == True:
@@ -70,10 +67,9 @@ class EmulatorMain(object):
         observationalError = observationalError * .01
         return observationalError
 
-"""CODE TO PRINT OUT OBSERVATIONS OF A SINGLE OBJECT
+"""#CODE TO PRINT OUT OBSERVATIONS OF A SINGLE OBJECT
 a = EmulatorMain()
-h = a.generateSingleObject()
+h = a.generateSingleObject(True)
 for a in h:
     print a
 """
-        
