@@ -36,7 +36,7 @@ class EmulatorMain(object):
             point = namedtuple('Observation' + str(x), ['time', 'light'])
             if isTransient == False:
                 timeTaken = timeTaken + timeInterval
-                p = point(timeTaken, (initialBrightness + self._createError()))
+                p = point(timeTaken, (initialBrightness + createError()))
                 finalObject.append(p)
                 continue
             if hasSlopeChanged == False:
@@ -49,7 +49,7 @@ class EmulatorMain(object):
             else:
                 initialBrightness = initialBrightness - variance
             timeTaken = timeTaken = timeInterval;
-            p = point(timeTaken, (initialBrightness + self._createError()))            
+            p = point(timeTaken, (initialBrightness + createError()))            
             finalObject.append(p)
             
         return finalObject
@@ -61,11 +61,11 @@ class EmulatorMain(object):
         Returns ? Do we even need this?
         """
       
-    def _createError(self):
-        # Error between -5%-5% of value passsed in (random)
-        observationalError = random.randint(-5, 5)
-        observationalError = observationalError * .01
-        return observationalError
+def createError():
+    # Error between -5%-5% of value passsed in (random)
+    observationalError = random.randint(-5, 5)
+    observationalError = observationalError * .01
+    return observationalError
 
 """#CODE TO PRINT OUT OBSERVATIONS OF A SINGLE OBJECT
 a = EmulatorMain()
