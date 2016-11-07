@@ -69,7 +69,8 @@ class EmulatorMain(object):
 def createError(light):
     #Normally distributed error
     s = numpy.random.normal(light, abs(light * .02) + .0001) #about 68% of values will be within +-.02*light
-    observationalError = s
     if random.getrandbits(1) == True:
         observationalError = -s
+    else:
+        observationalError = s
     return observationalError
