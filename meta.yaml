@@ -8,10 +8,19 @@ source:
 requirements:
   build:
     - python
-    - setuptools
+    - setuptools ==27.2.0
 
   run:
     - python
+    - pycli
+
+test:
+  requires:
+    - nose
+
+  files:
+    - binaryclassifier
+    - tests/test_main.py
 
 about:
   home: https://github.com/CSC380Team8/binary-classifier
